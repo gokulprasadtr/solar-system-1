@@ -16,20 +16,20 @@ jobs:
    unit-testing:
     strategy:
       matrix:
-        nodejs_verion: [18, 20]
+        nodejs_version: [18, 20]
         operating_system: [ubuntu-latest, macos-latest]
         exclude:
-          - nodejs_verion: 18
+          - nodejs_version: 18
             operating_system: macos-latest
     runs-on: ${{ matrix.operating_system }}
     steps:
       - name: checkout repo
         uses: actions/checkout@v4
 
-      - name: setup nodejs ${{ matrix.nodejs_verion }}
+      - name: setup nodejs ${{ matrix.nodejs_version }}
         uses: actions/setup-node@v4
         with:
-         node-version: ${{ matrix.nodejs_verion }}
+         node-version: ${{ matrix.nodejs_version }}
 
       - name: Cache npm 
         uses: actions/cache@v4
@@ -47,7 +47,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: Mocha-Test-Result-${{ matrix.operating_system}}-node${{ matrix.nodejs_verion}}
+          name: Mocha-Test-Result-${{ matrix.operating_system}}-node${{ matrix.nodejs_version}}
           path: test-results.xml
 
    code-coverage:

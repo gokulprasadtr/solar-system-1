@@ -31,11 +31,11 @@ jobs:
         with:
          node-version: ${{ matrix.nodejs_version }}
 
-      - name: Cache npm 
-        uses: actions/cache@v4
-        with:
-           path: node_modules
-           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+      # - name: Cache npm 
+      #   uses: actions/cache@v4
+      #   with:
+      #      path: node_modules
+      #      key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
 
       - name: install dependencies
         run: npm install
@@ -43,40 +43,40 @@ jobs:
       - name: unit unit-testing
         run: npm test
 
-      - name: Archive artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: Mocha-Test-Result-${{ matrix.operating_system}}-node${{ matrix.nodejs_version}}
-          path: test-results.xml
+      # - name: Archive artifacts
+      #   if: always()
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: Mocha-Test-Result-${{ matrix.operating_system}}-node${{ matrix.nodejs_version}}
+      #     path: test-results.xml
 
-   code-coverage:
-     runs-on: ubuntu-latest
-     steps:
-      - name: checkout repo
-        uses: actions/checkout@v4
+  #  code-coverage:
+  #    runs-on: ubuntu-latest
+  #    steps:
+  #     - name: checkout repo
+  #       uses: actions/checkout@v4
       
-      - name: setup nodejs 18
-        uses: actions/setup-node@v4
-        with:
-         node-version: 18
+  #     - name: setup nodejs 18
+  #       uses: actions/setup-node@v4
+  #       with:
+  #        node-version: 18
       
-      - name: Cache npm 
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+  #     - name: Cache npm 
+  #       uses: actions/cache@v4
+  #       with:
+  #         path: node_modules
+  #         key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
 
-      - name: install dependencies
-        run: npm install
+  #     - name: install dependencies
+  #       run: npm install
 
-      - name: run code coverage
-        run: npm run coverage
-        continue-on-error: true
+  #     - name: run code coverage
+  #       run: npm run coverage
+  #       continue-on-error: true
 
-      - name: Archive test result
-        uses: actions/upload-artifact@v4
-        with: 
-          name: code-coverage-report
-          path: coverage
-          retention-days: 1
+  #     - name: Archive test result
+  #       uses: actions/upload-artifact@v4
+  #       with: 
+  #         name: code-coverage-report
+  #         path: coverage
+  #         retention-days: 1

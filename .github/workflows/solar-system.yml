@@ -14,7 +14,14 @@ env:
 
 jobs:
    unit-testing:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        nodejs_verion: [18, 19, 20]
+        operating_system: [ubuntu-latest, macos-latest]
+        exclude:
+          - nodejs_verion: 18
+            operating_system: macos-latest
+    runs-on: ${{ matrix.operating_system }}
     steps:
       - name: checkout repo
         uses: actions/checkout@v4
@@ -22,7 +29,7 @@ jobs:
       - name: setup nodejs 18 version
         uses: actions/setup-node@v4
         with:
-         node-version: '18'
+         node-version: ${{ matrix.nodejs_verion }}
 
       - name: install dependencies
         run: npm install
@@ -33,7 +40,7 @@ jobs:
       - name: list files
         run: ls -ltr
         
-      - name: upload artifacts
+      - name: Archive artifacts
         uses: actions/upload-artifact@v4
         with:
           name: Mocha-Test-Result

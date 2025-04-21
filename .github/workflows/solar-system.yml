@@ -65,7 +65,7 @@ jobs:
    code-coverage:
      runs-on: ubuntu-latest
      container:
-        image: gcr.io/distroless/nodejs18-debian12
+        image: node:18
      services:
       mongo-db:
         image: siddharth67/mongo-db:non-prod
